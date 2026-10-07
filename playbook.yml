@@ -1,0 +1,34 @@
+---
+- name: secu ssh and install bind
+  hosts: all
+  become: true
+  gather_facts: no
+  tasks:
+    - name: Neutralisation du mdp d ansible
+      ansible.builtin.user:
+        name: ansible
+        password_lock: yes
+    - name: Restric sshd config
+      ansible.builtin.blockinfile:
+        path: /etc/ssh/sshd_config
+        backup: yes
+        insertafter: "EOF"
+        block: |
+          Match User Ansible
+            AllowUsers ansible@10.81.200.38
+            PasswordAuthentication no
+    - name: restart sshd
+      ansible.builtin.service:
+        name: sshd
+        state: restarted
+    - name: install bind
+      ansible.builtin.dnf:
+        name: bind
+        state: present
+    - name: activ start bind
+      ansible.builtin.service:
+        name: named
+        state: started
+        enabled: true
+
+        
