@@ -14,7 +14,7 @@ jobs:
       - name: injection des vaults
         working-directory: ${{ github.workspace }}
         run: |
-          cp /home/ansible/test/.vault /home/ansible/test/test/test/.vault
+          cp /home/ansible/git/ansible/inventory/staging/group_vars/vault.yml /home/ansible/ansible/ansible/inventory/staging/group_vars/vault.yml
       - name: run ansible-playbook
         working-directory: ${{ github.workspace }}
         run: |
