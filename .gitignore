@@ -32,3 +32,10 @@ Thumbs.db
 .vscode/
 *.swp
 *~
+
+#menage git action :
+_actions/
+_PipelineMapping/
+_temp/
+_tool/
+test/
