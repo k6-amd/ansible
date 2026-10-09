@@ -5,6 +5,3 @@ all:
     staging:
       hosts:
         10.81.66.6:
-    prod:
-      hosts:
-        10.81.6.66:

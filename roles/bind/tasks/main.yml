@@ -1,0 +1,54 @@
+---
+
+
+
+- name: install bind
+  ansible.builtin.dnf:
+    name: bind
+    state: present
+- name: activ start bind
+  ansible.builtin.service:
+    name: named
+    state: started
+    enabled: true
+
+- name: ajout config bind
+  ansible.builtin.template:
+    src: named.conf.j2
+    dest: /etc/named.conf
+    backup: true
+    owner: root
+    group: named
+    mode: 0640
+  register: template_result
+# - name: debug
+#   debug:
+#     var: template_result
+- name: test config
+  command: named-checkconf
+  register: namedcheckconf
+  ignore_errors: true
+- name: restart bind if ok
+  ansible.builtin.service:
+    name: named
+    state: restarted
+  when:  namedcheckconf.rc == 0
+
+- name: roolback config
+  copy:
+    src: "{{ template_result.backup_file }}"
+    dest: /etc/named.conf
+    remote_src: true
+  when: namedcheckconf.rc != 0
+- name: suppression backup
+  file:
+    name: "{{ template_result.backup_file }}"
+    state: absent 
+  when: template_result_backup_file is defined
+
+- name: Affiche l'ereur 
+  debug:
+    var: namedcheckconf.stdout
+  when: namedcheckconf.rc != 0
+
+

@@ -1,0 +1,33 @@
+---
+- name: add file vault
+  ansible.builtin.include_vars:
+    file: publickeytoto.yml
+
+- name: génération password
+  ansible.builtin.set_fact: 
+    generated_admin_password: "{{ lookup('ansible.builtin.password', '/dev/null length=16 chars=ascii_letters,digits,hexdigest') }}"
+  no_log: true
+- name: création user
+  ansible.builtin.user:
+    name: "{{ admin_username }}"
+    password: "{{ generated_admin_password | password_hash('sha512') }}"
+    shell: /bin/bash
+    append: yes
+    state: present
+- name: add sudo 
+  ansible.builtin.lineinfile:
+    path: "/etc/sudoers.d/{{ admin_username }}"
+    line: "{{ admin_username }} ALL=(ALL) ALL"
+    create: yes
+    mode: '0440'
+    validate: 'visudo -cf %s'
+
+- name: add key
+  # faite avant : ansible-galaxy collection install ansible.posix
+  ansible.posix.authorized_key:
+    user: "{{ admin_username }}"
+    state: present
+    key: "{{ vault_admin_ssh_public_key }}"
+- name: affiche mdp
+  debug:
+    var: "{{ generated_admin_password }}"
