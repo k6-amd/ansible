@@ -10,7 +10,7 @@ jobs:
       # Checkout : récupère le projet à jour depuis le dépôt : comme un git clone | pull
       - name: Checkout du dépôt
         uses: actions/checkout@v7
-
+        # ansible ansible ansible ! WHYYYYYYYY ?
       - name: injection des vaults
         working-directory: ${{ github.workspace }}
         run: |
