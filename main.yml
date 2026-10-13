@@ -1,23 +1,7 @@
 ---
-- name: secu ssh and install bind
+- name: Configure administrative access
   hosts: "{{ hosts | default('all') }}"
   become: true
   gather_facts: true
-
-  roles: 
-  #  - role: ssh
-  #  - role: bind
+  roles:
     - role: add_admin
-
-
-
-
-
-
-
-
-  ################################################### role a faire #################################
-
-
-
-        

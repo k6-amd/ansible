@@ -15,6 +15,9 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: |
           cp /home/ansible/git/ansible/inventory/staging/group_vars/vault.yml /home/ansible/git/ansible/ansible/ansible/inventory/staging/group_vars/vault.yml
+      - name: Install Ansible collections
+        working-directory: ${{ github.workspace }}
+        run: ansible-galaxy collection install -r requirements.yml
       - name: run ansible-playbook
         working-directory: ${{ github.workspace }}
         run: |
