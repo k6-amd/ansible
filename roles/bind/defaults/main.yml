@@ -1,1 +1,10 @@
 ---
+bind_listen_ipv4:
+  - 127.0.0.1
+bind_listen_ipv6:
+  - ::1
+bind_allow_query:
+  - localhost
+bind_allow_recursion:
+  - localhost
+bind_forwarders: "{{ ansible_dns.nameservers | default([]) }}"
