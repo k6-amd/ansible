@@ -26,6 +26,11 @@ ansible-galaxy collection install -r requirements.yml
 Le workflow GitHub Actions installe aussi automatiquement les collections
 déclarées dans `requirements.yml` avant d'exécuter le playbook.
 
+Pour le workflow staging, configurez le secret GitHub `ANSIBLE_VAULT_PASSWORD`
+avec le mot de passe utilisé pour chiffrer les variables Ansible Vault. Le
+workflow l'écrit dans le fichier de mot de passe attendu par `ansible.cfg`
+après le checkout, sans l'afficher dans les logs.
+
 ## Rôle BIND
 
 Le rôle valide le fichier rendu avec `named-checkconf` avant de remplacer la

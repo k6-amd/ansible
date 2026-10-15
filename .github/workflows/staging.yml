@@ -7,14 +7,19 @@ jobs:
     name: run playbook
     runs-on: [self-hosted, yig]
     steps:
-      # Checkout : récupère le projet à jour depuis le dépôt : comme un git clone | pull
       - name: Checkout du dépôt
         uses: actions/checkout@v7
-        # ansible ansible ansible ! WHYYYYYYYY ?
-      - name: injection des vaults
+      - name: Injecter le mot de passe Ansible Vault
         working-directory: ${{ github.workspace }}
+        env:
+          ANSIBLE_VAULT_PASSWORD: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
         run: |
-          cp /home/ansible/git/ansible/inventory/staging/group_vars/vault.yml /home/ansible/git/ansible/ansible/ansible/inventory/staging/group_vars/vault.yml
+          if [ -z "$ANSIBLE_VAULT_PASSWORD" ]; then
+            echo "::error::Le secret GitHub ANSIBLE_VAULT_PASSWORD est requis."
+            exit 1
+          fi
+          chmod 600 inventory/staging/group_vars/vault.yml
+          printf '%s' "$ANSIBLE_VAULT_PASSWORD" > inventory/staging/group_vars/vault.yml
       - name: Install Ansible collections
         working-directory: ${{ github.workspace }}
         run: ansible-galaxy collection install -r requirements.yml
