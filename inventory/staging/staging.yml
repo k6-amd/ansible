@@ -4,4 +4,4 @@ all:
   children:
     staging:
       hosts:
-        10.81.66.6:
+        10.84.200.32:

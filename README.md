@@ -39,3 +39,21 @@ Par défaut, BIND écoute et répond uniquement sur localhost. Pour un serveur D
 accessible au réseau, définir explicitement les variables du rôle dans
 l'inventaire, par exemple `bind_listen_ipv4`, `bind_allow_query` et
 `bind_allow_recursion`, en limitant ces listes aux réseaux autorisés.
+
+
+# config runner : 
+
+## Runner Registration
+
+Enter the name of the runner group to add this runner to: [press Enter for Default] 
+
+Enter the name of runner: [press Enter for localhost] chtulhu
+
+This runner will have the following labels: 'self-hosted', 'Linux', 'X64' 
+Enter any additional labels (ex. label-1,label-2): [press Enter to skip] yig
+
+√ Runner successfully added
+
+## Runner settings
+
+Enter name of work folder: [press Enter for _work] /srv/ansible/runner
